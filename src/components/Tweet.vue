@@ -14,6 +14,11 @@ const postTweet = () => {
   inputtingDescription.value = ''
   console.log(tweets.value);
 }
+
+const deleteTweet = (id: number) => {
+  tweets.value = tweets.value.filter(t => t.id !== id)
+}
+
 </script>
 
 <template>
@@ -27,6 +32,7 @@ const postTweet = () => {
       <ul>
         <li v-for="tweet in tweets" :key="tweet.id" class="tweet-list">
           <span>{{ tweet.description }}</span>
+          <button @click="deleteTweet(tweet.id)" class="delete-button">delete</button>
         </li>
       </ul>
 
@@ -68,7 +74,7 @@ const postTweet = () => {
 
 }
 
-button {
+.save-button {
   color: #fff;
   font-weight: bold;
   background-color: #68c9c9;
@@ -78,8 +84,22 @@ button {
   height: 22px;
 }
 
-button:hover {
+.save-button:hover {
   background-color: #37bdbd;
+}
+
+.delete-button {
+  color: #fff;
+  font-weight: bold;
+  background-color: #c99a68;
+  border-radius: 2px;
+  border: none;
+  width: 60px;
+  height: 22px;
+}
+
+.delete-button:hover {
+  background-color: #ac783f;
 }
 
 input {

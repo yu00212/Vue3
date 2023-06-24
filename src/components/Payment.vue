@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import {ref, reactive, computed} from 'vue'
 
   const itemName1 = ref<string>('Desk');
   const itemName2 = 'Bike';
@@ -18,13 +18,11 @@ import { ref, reactive } from 'vue'
     alert(itemName + 'を購入しますか?')
   }
 
-  // const input = (e: any) => {
-  //   item1.name = e.target.value;
-  // }
+  const budget = 50000;
 
-// const inputPrice = (e: any) => {
-//   item1.price = e.target.value;
-// }
+  const priceLabel = computed(() => {
+    return item1.price > budget ? '値段が高すぎます！' : item1.price + ' yen';
+  });
 
 const clear = () => {
     item1.name = ''
@@ -42,7 +40,7 @@ const clear = () => {
     <h1>最近の支出</h1>
     <div class="payment">
       <label>{{ item1.name }}</label>
-      <label>{{ item1.price }}円</label>
+      <label>{{ priceLabel }}</label>
       <a :href="url1">bought at...</a>
       <button @click="buy(itemName1)">購入</button>
     </div>

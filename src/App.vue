@@ -1,9 +1,38 @@
 <script setup lang="ts">
+import {computed, ref} from 'vue'
 import CardList from './components/CardList.vue';
+import SecondCardList from './components/SecondCardList.vue';
+
+const isActiveTabName = ref('1')
+
+const updateTab = (activeName: string) => {
+  isActiveTabName.value = activeName
+}
+
+const currentComponent = computed(() => {
+  switch (isActiveTabName.value) {
+    case '1':
+      return CardList
+    case '2':
+      return SecondCardList
+    default:
+      return CardList
+  }
+})
+
 </script>
 
 <template>
-  <CardList></CardList>
+  <div class="tab-changer">
+    <button @click="updateTab('1')">Tab 1</button>
+    <button @click="updateTab('2')">Tab 2</button>
+  </div>
+  <div class="tab-contents">
+<!--    <CardList></CardList>-->
+    <component :is="currentComponent"></component>
+<!--    <CardList v-if="isFirstTab"></CardList>-->
+<!--    <SecondCardList v-if="!isFirstTab"></SecondCardList>-->
+  </div>
 </template>
 
 <style>
@@ -13,5 +42,10 @@ import CardList from './components/CardList.vue';
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+.tab-contents {
+  margin-top: 20px;
+
 }
 </style>

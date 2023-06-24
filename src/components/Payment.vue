@@ -1,6 +1,13 @@
 <script setup lang="ts">
-  let itemName1 = 'Desk';
+import { ref, reactive } from 'vue'
+
+  const itemName1 = ref<string>('Desk');
   const itemName2 = 'Bike';
+
+  const item1 = reactive({
+    name: 'Desk',
+    price: 4000,
+  });
 
   const price1 = 40000;
   const price2 = 20000;
@@ -12,9 +19,12 @@
   }
 
   const input = (e: any) => {
-    console.log('e:', e.target.value);
-    itemName1 = e.target.value;
+    item1.name = e.target.value;
   }
+
+const inputPrice = (e: any) => {
+  item1.price = e.target.value;
+}
 
 
 </script>
@@ -23,10 +33,11 @@
   <div class="container">
     <h1>Payment</h1>
     <input @input="input"/>
+    <input @input="inputPrice"/>
     <h1>最近の支出</h1>
     <div class="payment">
-      <label>{{ itemName1 }}</label>
-      <label>{{ price1 }}</label>
+      <label>{{ item1.name }}</label>
+      <label>{{ item1.price }}</label>
       <a :href="url1">bought at...</a>
       <button @click="buy(itemName1)">購入</button>
     </div>
@@ -54,6 +65,11 @@
   width: 400px;
   background-color: aliceblue;
 }
+
+input {
+  margin-bottom: 8px;
+}
+
 label {
   font-size: 20px;
   font-weight: bold;

@@ -7,6 +7,10 @@
 
   const url1 = 'https://www.amazon.co.jp/ref=nav_logo';
 
+  const buy = (itemName: string) => {
+    alert(itemName + 'を購入しますか?')
+  }
+
 </script>
 
 <template>
@@ -16,11 +20,13 @@
       <label>{{ itemName1 }}</label>
       <label>{{ price1 }}</label>
       <a :href="url1">bought at...</a>
+      <button @click="buy(itemName1)">購入</button>
     </div>
     <div class="payment">
       <label>{{ itemName2 }}</label>
       <label>{{ price2 }}</label>
       <a :href="url1">bought at...</a>
+      <button @click="buy(itemName2)">購入</button>
     </div>
   </div>
 

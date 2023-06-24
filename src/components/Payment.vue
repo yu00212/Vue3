@@ -18,32 +18,37 @@ import { ref, reactive } from 'vue'
     alert(itemName + 'を購入しますか?')
   }
 
-  const input = (e: any) => {
-    item1.name = e.target.value;
-  }
+  // const input = (e: any) => {
+  //   item1.name = e.target.value;
+  // }
 
-const inputPrice = (e: any) => {
-  item1.price = e.target.value;
+// const inputPrice = (e: any) => {
+//   item1.price = e.target.value;
+// }
+
+const clear = () => {
+    item1.name = ''
+    item1.price = 0
 }
-
 
 </script>
 
 <template>
   <div class="container">
     <h1>Payment</h1>
-    <input @input="input"/>
-    <input @input="inputPrice"/>
+    <input v-model="item1.name" />
+    <input v-model="item1.price" />
+    <button @click="clear">Clear</button>
     <h1>最近の支出</h1>
     <div class="payment">
       <label>{{ item1.name }}</label>
-      <label>{{ item1.price }}</label>
+      <label>{{ item1.price }}円</label>
       <a :href="url1">bought at...</a>
       <button @click="buy(itemName1)">購入</button>
     </div>
     <div class="payment">
       <label>{{ itemName2 }}</label>
-      <label>{{ price2 }}</label>
+      <label>{{ price2 }}円</label>
       <a :href="url1">bought at...</a>
       <button @click="buy(itemName2)">購入</button>
     </div>

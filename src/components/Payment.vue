@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const itemName1 = 'Desk';
+  let itemName1 = 'Desk';
   const itemName2 = 'Bike';
 
   const price1 = 40000;
@@ -11,10 +11,18 @@
     alert(itemName + 'を購入しますか?')
   }
 
+  const input = (e: any) => {
+    console.log('e:', e.target.value);
+    itemName1 = e.target.value;
+  }
+
+
 </script>
 
 <template>
   <div class="container">
+    <h1>Payment</h1>
+    <input @input="input"/>
     <h1>最近の支出</h1>
     <div class="payment">
       <label>{{ itemName1 }}</label>
@@ -29,7 +37,6 @@
       <button @click="buy(itemName2)">購入</button>
     </div>
   </div>
-
 </template>
 
 <style scoped>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, reactive, computed} from 'vue'
+import {ref, reactive, computed, watch, toRefs} from 'vue'
 
   const itemName1 = ref<string>('Desk');
   const itemName2 = 'Bike';
@@ -20,14 +20,21 @@ import {ref, reactive, computed} from 'vue'
 
   const budget = 50000;
 
-  const priceLabel = computed(() => {
-    return item1.price > budget ? '値段が高すぎます！' : item1.price + ' yen';
-  });
+  // const priceLabel = computed(() => {
+  //   return item1.price > budget ? '値段が高すぎます！' : item1.price + ' yen';
+  // });
 
 const clear = () => {
     item1.name = ''
     item1.price = 0
 }
+
+const priceLabel = ref<string>(item1.price + ' yen')
+const { price } = toRefs(item1);
+watch(price, () => {
+  return price.value > budget ? priceLabel.value = '値段が高すぎます。'
+      : priceLabel.value = price.value + ' yen';
+})
 
 </script>
 

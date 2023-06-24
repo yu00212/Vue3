@@ -29,13 +29,13 @@ const deleteTweet = (id: number) => {
       <button class="save-button" @click="postTweet()">post</button>
     </div>
     <div class="tweet-container">
+      <p v-if="tweets.length <= 0">ツイートがありません。</p>
       <ul>
         <li v-for="tweet in tweets" :key="tweet.id" class="tweet-list">
           <span>{{ tweet.description }}</span>
           <button @click="deleteTweet(tweet.id)" class="delete-button">delete</button>
         </li>
       </ul>
-
     </div>
   </div>
 </template>

@@ -1,31 +1,32 @@
 <script setup lang="ts">
-import {DirectiveBinding, ref, watch } from 'vue' ;
-import Rating from "./Rating.vue";
+import { ref } from 'vue';
+import axios from 'axios';
 
-const userName = ref<string>('')
-const from = ref<string>('')
-const interest = ref<boolean>([])
-const ratings = ref<string>('')
-
-// v-focus
 const vFocus = {
-  mounted: (el: HTMLElement, binding: DirectiveBinding) => {
+  mounted: (el: HTMLElement) => {
     el.focus()
-
-    if (binding.modifiers.alert) {
-      el.style.backgroundColor = 'pink'
-    }
   }
 }
 
+const userName = ref<string>('')
+const interest = ref([])
+
 const onSubmit = (e: Event) => {
-  console.log('userName', userName.value )
-  console.log('from is ', from.value )
-  console.log('ratings...', ratings.value)
+  interest.value = []
+  // fetch('https://vue3-429bf-default-rtdb.firebaseio.com/surveys.json', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({name: userName.value, interest: interest.value })
+  //   }
+  axios.post('https://vue3-429bf-default-rtdb.firebaseio.com/surveys.json', {
+      name: userName.value,
+      interest: interest.value,
+    })
   interest.value = []
 }
 
-watch(interest, () => {console.log(interest.value)})
 
 </script>
 
@@ -33,19 +34,7 @@ watch(interest, () => {console.log(interest.value)})
   <form>
     <div class="form-control">
       <label for="user-name">Your Name</label>
-      <input id="user-name" name="user-name" type="text" v-focus.alert />
-    </div>
-    <div class="form-control">
-      <label for="age">Your Age</label>
-      <input id="age" name="age" type="number" />
-    </div>
-    <div class="form-control">
-      <label for="from">Where Are you from?</label>
-      <select id="from" name="from" v-model="from">
-        <option value="japan">Japan</option>
-        <option value="china">China</option>
-        <option value="others">Others</option>
-      </select>
+      <input id="user-name" name="user-name" type="text" v-model.trim="userName" v-focus />
     </div>
     <div class="form-control">
       <h2>What are you interested in?</h2>
@@ -58,27 +47,15 @@ watch(interest, () => {console.log(interest.value)})
         <label for="interest-vue">Vue.js</label>
       </div>
       <div>
-        <input id="interest-angular" name="interest" type="checkbox" value="angular" v-model="interest" />
+        <input
+            id="interest-angular"
+            name="interest"
+            type="checkbox"
+            value="angular"
+            v-model="interest"
+        />
         <label for="interest-angular">Angular.js</label>
       </div>
-    </div>
-    <div class="form-control">
-      <h2>How do you learn?</h2>
-      <div>
-        <input id="how-video" name="how" type="radio" />
-        <label for="how-video">Video Courses</label>
-      </div>
-      <div>
-        <input id="how-books" name="how" type="radio" />
-        <label for="how-books">Books</label>
-      </div>
-      <div>
-        <input id="how-other" name="how" type="radio" />
-        <label for="how-other">Other</label>
-      </div>
-    </div>
-    <div>
-      <rating v-model="ratings"/>
     </div>
     <div>
       <button @click.prevent="onSubmit">Save Data</button>

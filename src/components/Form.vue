@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import {DirectiveBinding, ref} from 'vue' ;
+import {DirectiveBinding, ref, watch } from 'vue' ;
+import Rating from "./Rating.vue";
 
 const userName = ref<string>('')
+const from = ref<string>('')
+const interest = ref<boolean>([])
+const ratings = ref<string>('')
 
 // v-focus
 const vFocus = {
@@ -14,10 +18,15 @@ const vFocus = {
   }
 }
 
-const onSubmit = () => {
+const onSubmit = (e: Event) => {
   console.log('userName', userName.value )
-  console.log('submit')
+  console.log('from is ', from.value )
+  console.log('ratings...', ratings.value)
+  interest.value = []
 }
+
+watch(interest, () => {console.log(interest.value)})
+
 </script>
 
 <template>
@@ -32,7 +41,7 @@ const onSubmit = () => {
     </div>
     <div class="form-control">
       <label for="from">Where Are you from?</label>
-      <select id="from" name="from">
+      <select id="from" name="from" v-model="from">
         <option value="japan">Japan</option>
         <option value="china">China</option>
         <option value="others">Others</option>
@@ -41,15 +50,15 @@ const onSubmit = () => {
     <div class="form-control">
       <h2>What are you interested in?</h2>
       <div>
-        <input id="interest-react" name="interest" type="checkbox" />
+        <input id="interest-react" name="interest" type="checkbox" value="react" v-model="interest" />
         <label for="interest-react">React.js</label>
       </div>
       <div>
-        <input id="interest-vue" name="interest" type="checkbox" />
+        <input id="interest-vue" name="interest" type="checkbox" value="vue" v-model="interest" />
         <label for="interest-vue">Vue.js</label>
       </div>
       <div>
-        <input id="interest-angular" name="interest" type="checkbox" />
+        <input id="interest-angular" name="interest" type="checkbox" value="angular" v-model="interest" />
         <label for="interest-angular">Angular.js</label>
       </div>
     </div>
@@ -67,6 +76,9 @@ const onSubmit = () => {
         <input id="how-other" name="how" type="radio" />
         <label for="how-other">Other</label>
       </div>
+    </div>
+    <div>
+      <rating v-model="ratings"/>
     </div>
     <div>
       <button @click.prevent="onSubmit">Save Data</button>

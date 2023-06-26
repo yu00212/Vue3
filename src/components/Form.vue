@@ -10,10 +10,25 @@ const vFocus = {
 
 const userName = ref<string>('')
 const interest = ref([])
+const data = ref()
+const isLoading = ref<boolean>(false)
+const err = ref(null)
 
 onMounted(async () => {
-  const data = await axios.get('https://vue3-429bf-default-rtdb.firebaseio.com/surveys.json')
-  console.log('data is', data)
+  isLoading.value = true
+  try {
+    // data.value = await axios.get('https://vue3-429bf-default-rtdb.firebaseio.com/surveys.json')
+    const response = await axios.get('https://vue3-429bf-default-rtdb.firebaseio.com/surveys.json')
+    if (response.status !== 200) {
+      throw new Error('サーバー側のエラー')
+    }
+    data.value = response
+  } catch (e) {
+    console.log('エラー')
+    // err.value = new Error('エラーが発生しました')
+    err.value = e
+  }
+  isLoading.value = false
 })
 
 const onSubmit = (e: Event) => {
@@ -62,6 +77,9 @@ const onSubmit = (e: Event) => {
         <label for="interest-angular">Angular.js</label>
       </div>
     </div>
+    <div v-if="isLoading">Loading...</div>
+    <div v-else>{{ data }}</div>
+    <div v-if="err">{{ err }}</div>
     <div>
       <button @click.prevent="onSubmit">Save Data</button>
     </div>

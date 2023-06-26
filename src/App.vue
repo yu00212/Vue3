@@ -1,21 +1,23 @@
 <script setup lang="ts">
-import TodoList from './components/TodoList.vue';
-import { provide }from 'vue';
-import { todos } from './useTodo';
+import Form from './components/Form.vue';
 
-provide('todos', todos)
 </script>
 
 <template>
-  <TodoList />
+  <Form />
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+*{
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: #1a1a1a;
 }
 </style>
